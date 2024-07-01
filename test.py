@@ -28,8 +28,15 @@ print(res.fetchall())
 
 cur.execute("""update Library set Count=? where Name=?""", (3, getbook)) # can now update the table base by changing values
 con.commit()
+
+
+
+
+#make it so that you can now enter a book and it systems takes a book out of invtory
+#next step is to make a sort of user invotry  and allow the user to do multiple transactiuons if they want too
+
+
 #handle book loans, returns, and inventory.
-# loans - take the book out of stock and and ssign the user a certain amount of days before it must be returend
 # return- when you return the value goes back to orginal state
 # invotry- name of book, , (is book taken out), 
 # make a user invotry system
