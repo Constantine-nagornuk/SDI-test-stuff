@@ -22,7 +22,7 @@ getbook = input("Enter the name of the book you wish to take out? ")
 UserBooks.append(getbook)
 print(UserBooks)
 
-res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(getbook,))
+res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(getbook,)) #allows me to fetch value based on a search term 
 
 print(res.fetchall())
 
