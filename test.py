@@ -20,11 +20,6 @@ test = []
 #global VAR
 
 
-
-getbook = input("Enter the name of the book you wish to take out? ")
-UserBooks.append(getbook)
-""" Make a user interface so you can interact with the system more cleanly. will require lots of conditionals and reroutes """
-
 def fetchvalue(nameofbook,):
     res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(nameofbook,)) #allows me to fetch value based on a search term 
     this = res.fetchall()
@@ -56,16 +51,55 @@ def makenumber(x):
 def updatestock(currentcount,nameofbook):
     cur.execute("""update Library set Count=? where Name=?""", (currentcount, nameofbook)) # can now update the table base by changing values
 
+def linebreak():
+    print('----------------------------------------')
+
+print('Welcome to the Constantine Library.')
+print('What would you like to do? View the database, checkout a book out or return a book? ')
+user_choiceone = input('Choose a option: database,checkout,return')
+user_choicetwo = user_choiceone.lower()
+
+while user_choicetwo == 'database':
+    linebreak()
+    display_table()
+    linebreak()
+    returntomenu = input('Would you like to return to menu?')
+    if returntomenu == 'yes':
+        linebreak()
+        user_choiceone = input('Choose a option: database,checkout,return')
+        user_choicetwo = user_choiceone.lower()
+    else:
+        break
+
+while user_choicetwo == 'checkout':
+    linebreak()
+    getbook = input("Enter the name of the book you wish to take out")
+    UserBooks.append(getbook) 
+    fetchvalue(getbook)
+    makenumber(stockofbooks)
+    updatestockcurrent = finalreuslt - 1 
+    updatestock(updatestockcurrent,getbook)
+    returntomenu = input('Would you like to return to menu?')
+    if returntomenu == 'yes':
+        linebreak()
+        user_choiceone = input('Choose a option: database,checkout,return')
+        user_choicetwo = user_choiceone.lower()
+    else:
+        break
+    
+while user_choicetwo == 'return': 
+    linebreak()
+    
 
 
 
-
+""" 
 fetchvalue(getbook)
 makenumber(stockofbooks)
 print(finalreuslt)
 updatestock(10,getbook)
 display_table()
-
+ """
 
 
 
