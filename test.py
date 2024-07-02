@@ -12,16 +12,14 @@ cur.execute("""
         ('Book3', '11',3 ),
         ('Book4', '4',2 )    
 """)
-
-
-
-
 #global VAR
 finalreuslt = 0
 stockofbooks = 0
 UserBooks = []
 test = []
 #global VAR
+
+
 
 getbook = input("Enter the name of the book you wish to take out? ")
 UserBooks.append(getbook)
@@ -32,11 +30,6 @@ def fetchvalue(nameofbook,):
     this = res.fetchall()
     global stockofbooks
     stockofbooks = str(this)
-
-
-
-    
-
 
 def display_table():
     cur.execute("SELECT name FROM Library")
@@ -50,8 +43,6 @@ def display_table():
         print('Name:',poi[count],'Stock:',iop[count],'BorrowTime:',opi[count],'days')
         count +=1
 
-
-
 def makenumber(x):
     for nonnumber in x:
         if nonnumber == '[' or nonnumber == ']' or nonnumber == '(' or nonnumber == ')' or nonnumber == ',':
@@ -64,6 +55,10 @@ def makenumber(x):
     
 def updatestock(currentcount,nameofbook):
     cur.execute("""update Library set Count=? where Name=?""", (currentcount, nameofbook)) # can now update the table base by changing values
+
+
+
+
 
 fetchvalue(getbook)
 makenumber(stockofbooks)
