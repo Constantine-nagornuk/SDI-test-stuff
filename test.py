@@ -10,7 +10,8 @@ cur.execute("""
         ('Book1', '20',1 ),
         ('Book2', '14' ,4),
         ('Book3', '11',3 ),
-        ('Book4', '4',2 )    
+        ('Book4', '19',0 ),
+        ('Book5', '4',2 )    
 """)
 #global VAR
 finalreuslt = 0
@@ -57,7 +58,7 @@ def linebreak():
 
 def DCR(userchoice,):
     if userchoice == 'database':
-        linebreak()
+    
         display_table()
         linebreak()
     elif userchoice == 'checkout': # add in a check so it can be negative
@@ -66,8 +67,13 @@ def DCR(userchoice,):
         UserBooks.append(getbook) 
         fetchvalue(getbook)
         makenumber(stockofbooks)
-        updatestockcurrent = finalreuslt - 1 
-        updatestock(updatestockcurrent,getbook)
+        if finalreuslt  <= 0:
+            print('Out of stock')
+        else:
+            updatestockcurrent = finalreuslt - 1 
+            updatestock(updatestockcurrent,getbook)
+
+
     elif userchoice == 'return': #  add in so that when you return the book it clear from userbooks list
         linebreak()
         print('Book account:')
@@ -89,17 +95,21 @@ user_choicetwo = user_choiceone.lower()
 DCR(user_choicetwo)
 print('Would you like to return to the main menu')
 userresponce = input('Answer here: ')
+linebreak()
 userresponceone = userresponce.lower()
 
 if userresponceone == 'yes':
     while userresponceone == 'yes':
         user_choiceone = input('Choose a option: database,checkout or return ')
         user_choicetwo = user_choiceone.lower()
+        linebreak()
         DCR(user_choicetwo)
         print('Would you like to return to the main menu')
         userresponce = input('Answer here: ')
+        linebreak()
         userresponceone = userresponce.lower()
-
+else:
+    print('Exiting Constantine Library main system ')
 
         
     
