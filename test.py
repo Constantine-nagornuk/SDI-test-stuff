@@ -5,10 +5,6 @@ cur = con.cursor()
 
 cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count )")
 
-
-
-
-
 cur.execute("""
     INSERT INTO Library VALUES
         ('Book1', '20',1 ),
@@ -17,22 +13,76 @@ cur.execute("""
         ('Book4', '4',2 )    
 """)
 
+
+
+
+#global VAR
+finalreuslt = 0
+stockofbooks = 0
 UserBooks = []
+test = []
+#global VAR
+
 getbook = input("Enter the name of the book you wish to take out? ")
 UserBooks.append(getbook)
-print(UserBooks)
 
-res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(getbook,)) #allows me to fetch value based on a search term 
 
-print(res.fetchall())
-
-cur.execute("""update Library set Count=? where Name=?""", (3, getbook)) # can now update the table base by changing values
-con.commit()
-
+def fetchvalue(nameofbook,):
+    res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(nameofbook,)) #allows me to fetch value based on a search term 
+    this = res.fetchall()
+    global stockofbooks
+    stockofbooks = str(this)
 
 
 
-#make it so that you can now enter a book and it systems takes a book out of invtory
+    
+
+
+def display_table():
+    cur.execute("SELECT name FROM Library")
+    poi = cur.fetchall()
+    cur.execute("SELECT count FROM Library")
+    iop = cur.fetchall()
+    cur.execute("SELECT ReturnDays FROM Library")
+    opi = cur.fetchall()
+    count=0
+    for x in poi:
+        print('Name:',poi[count],'Stock:',iop[count],'BorrowTime:',opi[count],'days')
+        count +=1
+
+
+
+def makenumber(x):
+    for nonnumber in x:
+        if nonnumber == '[' or nonnumber == ']' or nonnumber == '(' or nonnumber == ')' or nonnumber == ',':
+            P = x.replace(nonnumber,"")
+            x = P
+    global finalreuslt
+    y = int(x)
+    finalreuslt = y
+    #finalreuslt is the where the actual number goes not into the value we plugged in 
+    
+def updatestock(currentcount,nameofbook):
+    cur.execute("""update Library set Count=? where Name=?""", (currentcount, nameofbook)) # can now update the table base by changing values
+
+fetchvalue(getbook)
+makenumber(stockofbooks)
+print(finalreuslt)
+updatestock(10,getbook)
+display_table()
+
+
+
+
+
+
+
+""" con.commit()
+ dont really need to use other wise it breaks but you cant see the DB table now on the DB file """
+
+
+
+""" #make it so that you can now enter a book and it systems takes a book out of invtory """
 #next step is to make a sort of user invotry  and allow the user to do multiple transactiuons if they want too
 
 
