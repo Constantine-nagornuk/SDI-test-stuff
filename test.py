@@ -23,7 +23,7 @@ test = []
 
 getbook = input("Enter the name of the book you wish to take out? ")
 UserBooks.append(getbook)
-
+""" Make a user interface so you can interact with the system more cleanly. will require lots of conditionals and reroutes """
 
 def fetchvalue(nameofbook,):
     res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(nameofbook,)) #allows me to fetch value based on a search term 
@@ -77,10 +77,8 @@ display_table()
 
 
 
-""" #make it so that you can now enter a book and it systems takes a book out of invtory """
+
 #next step is to make a sort of user invotry  and allow the user to do multiple transactiuons if they want too
-
-
 #handle book loans, returns, and inventory.
 # return- when you return the value goes back to orginal state
 # invotry- name of book, , (is book taken out), 
