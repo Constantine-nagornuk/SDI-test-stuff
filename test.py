@@ -15,7 +15,7 @@ cur.execute("""
 #global VAR
 finalreuslt = 0
 stockofbooks = 0
-UserBooks = []
+UserBooks = ['Book4']
 test = []
 #global VAR
 
@@ -54,41 +54,59 @@ def updatestock(currentcount,nameofbook):
 def linebreak():
     print('----------------------------------------')
 
+
+def DCR(userchoice,):
+    if userchoice == 'database':
+        linebreak()
+        display_table()
+        linebreak()
+    elif userchoice == 'checkout': # add in a check so it can be negative
+        linebreak()
+        getbook = input("Enter the name of the book you wish to take out")
+        UserBooks.append(getbook) 
+        fetchvalue(getbook)
+        makenumber(stockofbooks)
+        updatestockcurrent = finalreuslt - 1 
+        updatestock(updatestockcurrent,getbook)
+    elif userchoice == 'return': #  add in so that when you return the book it clear from userbooks list
+        linebreak()
+        print('Book account:')
+        print(UserBooks)
+        ReturnBook = input('Name of book returning:')
+        fetchvalue(ReturnBook)
+        makenumber(stockofbooks)
+        newvalue = finalreuslt + 1 
+        updatestock(newvalue,ReturnBook)
+        linebreak()
+   
+
+
 print('Welcome to the Constantine Library.')
 print('What would you like to do? View the database, checkout a book out or return a book? ')
-user_choiceone = input('Choose a option: database,checkout,return')
+user_choiceone = input('Choose a option: database,checkout or return ')
 user_choicetwo = user_choiceone.lower()
 
-while user_choicetwo == 'database':
-    linebreak()
-    display_table()
-    linebreak()
-    returntomenu = input('Would you like to return to menu?')
-    if returntomenu == 'yes':
-        linebreak()
-        user_choiceone = input('Choose a option: database,checkout,return')
-        user_choicetwo = user_choiceone.lower()
-    else:
-        break
+DCR(user_choicetwo)
+print('Would you like to return to the main menu')
+userresponce = input('Answer here: ')
+userresponceone = userresponce.lower()
 
-while user_choicetwo == 'checkout':
-    linebreak()
-    getbook = input("Enter the name of the book you wish to take out")
-    UserBooks.append(getbook) 
-    fetchvalue(getbook)
-    makenumber(stockofbooks)
-    updatestockcurrent = finalreuslt - 1 
-    updatestock(updatestockcurrent,getbook)
-    returntomenu = input('Would you like to return to menu?')
-    if returntomenu == 'yes':
-        linebreak()
-        user_choiceone = input('Choose a option: database,checkout,return')
+if userresponceone == 'yes':
+    while userresponceone == 'yes':
+        user_choiceone = input('Choose a option: database,checkout or return ')
         user_choicetwo = user_choiceone.lower()
-    else:
-        break
+        DCR(user_choicetwo)
+        print('Would you like to return to the main menu')
+        userresponce = input('Answer here: ')
+        userresponceone = userresponce.lower()
+
+
+        
     
-while user_choicetwo == 'return': 
-    linebreak()
+
+
+
+    
     
 
 
