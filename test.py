@@ -61,7 +61,7 @@ def DCR(userchoice,):
     
         display_table()
         linebreak()
-    elif userchoice == 'checkout': # add in a check so it can be negative
+    elif userchoice == 'checkout': 
         linebreak()
         getbook = input("Enter the name of the book you wish to take out")
         UserBooks.append(getbook) 
@@ -83,6 +83,13 @@ def DCR(userchoice,):
         makenumber(stockofbooks)
         newvalue = finalreuslt + 1 
         updatestock(newvalue,ReturnBook)
+        print('Book has been returned to the Constantine Library')
+        count = 0
+        for x in UserBooks:
+            if x == ReturnBook:
+                UserBooks.pop(UserBooks[count]) # something in here brooke or mayde DCR function idk, constantine will fiz this tomorrow - constantine
+            else:
+                None
         linebreak()
    
 
