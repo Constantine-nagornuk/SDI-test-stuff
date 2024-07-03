@@ -123,7 +123,7 @@ def DCR(userchoice,):
             linebreak()
 
 
-    elif userchoice == 'return':  
+    elif userchoice == 'return':  # if user trys to return a book they dont have it just shuts down
         userbookscount = 0 
         for L in UserBooks:
             userbookscount += 1
@@ -172,7 +172,7 @@ def DCR(userchoice,):
 
 print('Welcome to the Constantine Library.')
 print('What would you like to do? View the database, checkout a book out or return a book? ')
-user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks | Search | ') # add a exit feature
+user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks | Search | ')
 user_choicetwo = user_choiceone.lower()
 
 DCR(user_choicetwo)
@@ -192,13 +192,11 @@ if userresponceone == 'yes':
 else:
     print('Exiting Constantine Library main system ')
 
-        
-    
+
+#make the return days do something
+# when the user checks out a book add to their invtory the number of days before they need to return the book to library
 
 
-
-
-# make a search funtion where user can looks for books by name or genere
 
 
 
