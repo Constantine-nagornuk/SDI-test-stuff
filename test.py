@@ -3,15 +3,15 @@ import sqlite3
 con = sqlite3.connect("Library.db")
 cur = con.cursor()
 
-cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count )")
+cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count,Genre)")
 
 cur.execute("""
     INSERT INTO Library VALUES
-        ('Book1', '20',1 ),
-        ('Book2', '14' ,4),
-        ('Book3', '11',3 ),
-        ('Book4', '19',0 ),
-        ('Book5', '4',2 )    
+        ('Book1', '20',1,'horror' ),
+        ('Book2', '14' ,4,'romance'),
+        ('Book3', '11',3,'horror' ),
+        ('Book4', '19',0,'action' ),
+        ('Book5', '4',2,'action' )    
 """)
 #global VAR
 finalreuslt = 0
@@ -19,8 +19,47 @@ stockofbooks = 0
 UserBooks = []
 searching = []
 test = []
-
 #global VAR
+
+
+def search(UserSearchTerm):
+    cur.execute("SELECT name FROM Library")
+    namesofbook = cur.fetchall()
+    cur.execute("SELECT genre FROM Library")
+    genreofbook = cur.fetchall()
+    termof = input('Search: ')
+    datainsert = "('"+termof+"',)"
+    count = 0
+    count2 = 0
+    results = []
+    
+    if UserSearchTerm == 'name':
+        for x in namesofbook:
+            ready = namesofbook[count]
+            readytwo = str(ready)
+            if datainsert == readytwo:
+                results.append(readytwo)
+                count += 1
+            else:
+                count += 1
+    elif UserSearchTerm == 'genre': # it seems that it counts the right amount of books in the genre but gets stuck at the first book so only 1 name goes in
+        print(genreofbook)
+        for x in genreofbook:
+            poop = genreofbook[count2]
+            pooptwo = str(poop)
+            if datainsert == pooptwo:
+                results.append(namesofbook[count])
+                count2 += 1
+            else:
+                count2 += 1
+    
+    print('Results: ' , results)
+    
+
+    
+    
+        
+
 
 
 def fetchvalue(nameofbook,):
@@ -36,9 +75,11 @@ def display_table():
     iop = cur.fetchall()
     cur.execute("SELECT ReturnDays FROM Library")
     opi = cur.fetchall()
+    cur.execute("SELECT Genre FROM Library")
+    top = cur.fetchall()
     count=0
     for x in poi:
-        print('Name:',poi[count],'Stock:',iop[count],'BorrowTime:',opi[count],'days')
+        print('Name:',poi[count],'Stock:',iop[count],'Genre:',top[count],'BorrowTime:',opi[count],'days')
         count +=1
 
 def makenumber(x):
@@ -50,7 +91,9 @@ def makenumber(x):
     y = int(x)
     finalreuslt = y
     #finalreuslt is the where the actual number goes not into the value we plugged in 
-    
+
+
+
 def updatestock(currentcount,nameofbook):
     cur.execute("""update Library set Count=? where Name=?""", (currentcount, nameofbook)) # can now update the table base by changing values
 
@@ -106,6 +149,17 @@ def DCR(userchoice,):
         else:
             print('No books to return')
             linebreak()
+    elif userchoice == 'viewbooks':
+        print('Book account:')
+        print(UserBooks)
+    elif userchoice == 'search':
+        print('The search system is case sensitive')
+        ask = input('Search by Name or Genre? ')
+        ask2 = ask.lower()
+        linebreak()
+        
+        search(ask2)
+        
 
 
             
@@ -116,7 +170,7 @@ def DCR(userchoice,):
 
 print('Welcome to the Constantine Library.')
 print('What would you like to do? View the database, checkout a book out or return a book? ')
-user_choiceone = input('Choose a option: database | checkout | return | ')
+user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks | Search | ')
 user_choicetwo = user_choiceone.lower()
 
 DCR(user_choicetwo)
@@ -125,7 +179,7 @@ userresponce = input('Answer here: ')
 userresponceone = userresponce.lower()
 if userresponceone == 'yes':
     while userresponceone == 'yes':
-        user_choiceone = input('Choose a option: database | checkout | return | ')
+        user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks| Search | ')
         user_choicetwo = user_choiceone.lower()
         linebreak()
         DCR(user_choicetwo)
@@ -142,7 +196,7 @@ else:
 
 
 
-# make each book have a assinged genre and allow user to search by genre
+# make a search funtion where user can looks for books by name or genere
 
 
 
