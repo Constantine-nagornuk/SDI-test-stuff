@@ -16,8 +16,10 @@ cur.execute("""
 #global VAR
 finalreuslt = 0
 stockofbooks = 0
-UserBooks = ['Book4']
+UserBooks = []
+searching = []
 test = []
+
 #global VAR
 
 
@@ -61,53 +63,69 @@ def DCR(userchoice,):
     
         display_table()
         linebreak()
+
     elif userchoice == 'checkout': 
-        linebreak()
-        getbook = input("Enter the name of the book you wish to take out")
-        UserBooks.append(getbook) 
+        getbook = input("Enter the name of the book you wish to take out ")
         fetchvalue(getbook)
         makenumber(stockofbooks)
         if finalreuslt  <= 0:
             print('Out of stock')
-        else:
+
+        elif finalreuslt > 0:
             updatestockcurrent = finalreuslt - 1 
             updatestock(updatestockcurrent,getbook)
+            UserBooks.append(getbook) 
+            linebreak()
+            print('Book has succefully been checked out to your account')
+            linebreak()
 
 
-    elif userchoice == 'return': #  add in so that when you return the book it clear from userbooks list
-        linebreak()
-        print('Book account:')
-        print(UserBooks)
-        ReturnBook = input('Name of book returning:')
-        fetchvalue(ReturnBook)
-        makenumber(stockofbooks)
-        newvalue = finalreuslt + 1 
-        updatestock(newvalue,ReturnBook)
-        print('Book has been returned to the Constantine Library')
-        count = 0
-        for x in UserBooks:
-            if x == ReturnBook:
-                UserBooks.pop(UserBooks[count]) # something in here brooke or mayde DCR function idk, constantine will fiz this tomorrow - constantine
-            else:
-                None
-        linebreak()
+    elif userchoice == 'return':  
+        userbookscount = 0 
+        for L in UserBooks:
+            userbookscount += 1
+        if userbookscount > 0:
+            linebreak()
+            print('Book account:')
+            print(UserBooks)
+            linebreak()
+            ReturnBook = input('Name of book returning: ')
+            fetchvalue(ReturnBook)
+            makenumber(stockofbooks)
+            newvalue = finalreuslt + 1 
+            updatestock(newvalue,ReturnBook)
+            print('Book has been returned to the Constantine Library')
+            count = 0
+            for x in UserBooks:
+                if x == ReturnBook:
+                    del UserBooks[count]
+                    count += 1
+                else:
+                    count += 1
+            linebreak()
+        else:
+            print('No books to return')
+            linebreak()
+
+
+            
+
+       
    
 
 
 print('Welcome to the Constantine Library.')
 print('What would you like to do? View the database, checkout a book out or return a book? ')
-user_choiceone = input('Choose a option: database,checkout or return ')
+user_choiceone = input('Choose a option: database | checkout | return | ')
 user_choicetwo = user_choiceone.lower()
 
 DCR(user_choicetwo)
 print('Would you like to return to the main menu')
 userresponce = input('Answer here: ')
-linebreak()
 userresponceone = userresponce.lower()
-
 if userresponceone == 'yes':
     while userresponceone == 'yes':
-        user_choiceone = input('Choose a option: database,checkout or return ')
+        user_choiceone = input('Choose a option: database | checkout | return | ')
         user_choicetwo = user_choiceone.lower()
         linebreak()
         DCR(user_choicetwo)
@@ -123,21 +141,8 @@ else:
 
 
 
-    
-    
 
-
-
-""" 
-fetchvalue(getbook)
-makenumber(stockofbooks)
-print(finalreuslt)
-updatestock(10,getbook)
-display_table()
- """
-
-
-
+# make each book have a assinged genre and allow user to search by genre
 
 
 
@@ -147,16 +152,6 @@ display_table()
 
 
 
-#next step is to make a sort of user invotry  and allow the user to do multiple transactiuons if they want too
-#handle book loans, returns, and inventory.
-# return- when you return the value goes back to orginal state
-# invotry- name of book, , (is book taken out), 
-# make a user invotry system
-
-
-
-Loan = None # how many books loaned to you
-Books = None # Name of books loaned to you/ How many you have
 
 
 
