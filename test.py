@@ -33,7 +33,7 @@ def search(UserSearchTerm):
     count2 = 0
     results = []
     
-    if UserSearchTerm == 'name':
+    if UserSearchTerm == 'name': # add in a check so that searchs are all automitcally lower case so no need for case senstivity
         for x in namesofbook:
             ready = namesofbook[count]
             readytwo = str(ready)
@@ -42,17 +42,17 @@ def search(UserSearchTerm):
                 count += 1
             else:
                 count += 1
-    elif UserSearchTerm == 'genre': # it seems that it counts the right amount of books in the genre but gets stuck at the first book so only 1 name goes in
-        print(genreofbook)
+    elif UserSearchTerm == 'genre': # add in a check so that searchs are all automitcally lower case so no need for case senstivity
         for x in genreofbook:
             poop = genreofbook[count2]
-            pooptwo = str(poop)
+            pooptwo = str(poop) #repersents what genre we are on 
             if datainsert == pooptwo:
-                results.append(namesofbook[count])
+                results.append(namesofbook[count2])
                 count2 += 1
             else:
                 count2 += 1
-    
+    elif UserSearchTerm != 'genre' or UserSearchTerm != 'name':
+        print('Not Valid')
     print('Results: ' , results)
     
 
@@ -157,8 +157,10 @@ def DCR(userchoice,):
         ask = input('Search by Name or Genre? ')
         ask2 = ask.lower()
         linebreak()
-        
-        search(ask2)
+        if ask2 =='name' or ask2 == 'genre':
+            search(ask2)
+        else:
+            print('Error')
         
 
 
@@ -170,7 +172,7 @@ def DCR(userchoice,):
 
 print('Welcome to the Constantine Library.')
 print('What would you like to do? View the database, checkout a book out or return a book? ')
-user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks | Search | ')
+user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks | Search | ') # add a exit feature
 user_choicetwo = user_choiceone.lower()
 
 DCR(user_choicetwo)
@@ -179,7 +181,7 @@ userresponce = input('Answer here: ')
 userresponceone = userresponce.lower()
 if userresponceone == 'yes':
     while userresponceone == 'yes':
-        user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks| Search | ')
+        user_choiceone = input('Choose a option: | database | checkout | return | ViewBooks | Search | ')
         user_choicetwo = user_choiceone.lower()
         linebreak()
         DCR(user_choicetwo)
