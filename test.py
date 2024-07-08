@@ -3,21 +3,21 @@ import sqlite3
 con = sqlite3.connect("Library.db")
 cur = con.cursor()
 
-cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count,Genre)")
+cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count,Genre,Authors)") # add authors into the library system so user can also saearch by author. 
 
 cur.execute("""
     INSERT INTO Library VALUES
-        ('Year of the Maid', '20',1,'horror' ),
-        ('Death of the Stuffed Corgi', '14' ,4,'romance'),
-        ('Ice and the Tomb', '11',3,'horror' ),
-        ('Queen of Nirvana', '19',0,'action' ),
-        ('The Haunted Mask', '4',2,'action' ),
-        ('Avian Shadow', '19',0,'action' ),
-        ('The Attack of Jupiter', '4',2,'action' ),
-        ('Thorns and the Princess', '4',2,'action' ),
-        ('Tears of Fire', '4',2,'action' ),
-        ('Strike the Shadow', '4',2,'action' ),
-        ('Wicked Dance', '4',2,'action' )    
+        ('Year of the Maid', '17',1,'horror','rose' ),
+        ('Death of the Stuffed Corgi', '14' ,4,'romance','rose'),
+        ('Ice and the Tomb', '11',3,'horror','rose' ),
+        ('Queen of Nirvana', '19',0,'action','rose' ),
+        ('The Haunted Mask', '4',8,'action','rose' ),
+        ('Avian Shadow', '19',0,'romance','rose' ),
+        ('The Attack of Jupiter', '16',10,'action','rose' ),
+        ('Thorns and the Princess', '11',5,'romance','rose' ),
+        ('Tears of Fire', '9',6,'horror','rose' ),
+        ('Strike the Shadow', '4',2,'action','rose' ),
+        ('Wicked Dance', '7',3,'romance','rose' )    
 """) 
 #global VAR
 finalreuslt = 0
@@ -59,7 +59,7 @@ def search(UserSearchTerm):
                 results.append(temphold)
         print("results matching your search: " , results )
 
-    elif UserSearchTerm == 'genre': # not working fix this
+    elif UserSearchTerm == 'genre': # works
         for x in genreofbook:
             poop = genreofbook[count2]
             pooptwo = str(poop) #repersents what genre we are on 
@@ -68,15 +68,9 @@ def search(UserSearchTerm):
                 count2 += 1
             else:
                 count2 += 1
+        print('Results: ' , results)
     elif UserSearchTerm != 'genre' or UserSearchTerm != 'name':
         print('Not Valid')
-    print('Results: ' , results)  # i dont know where this goes for now
-    
-
-    
-    
-        
-
 
 
 def fetchvalue(nameofbook,):
@@ -85,7 +79,7 @@ def fetchvalue(nameofbook,):
     global stockofbooks
     stockofbooks = str(this)
 
-def display_table():
+def display_table(): # add in authors here so you cans see it in the database display
     cur.execute("SELECT name FROM Library")
     poi = cur.fetchall()
     cur.execute("SELECT count FROM Library")
@@ -123,14 +117,15 @@ def DCR(userchoice,):
         MenuHistory.append("database")
         display_table()
         linebreak()
-
-    elif userchoice == 'checkout': 
+    elif userchoice == 'printouthistory':
+        print(MenuHistory)
+    elif userchoice == 'checkout':  #  just make the user type it in right and it works
         histrycount = 0 
         for x in MenuHistory:
             if x == "database":
                 histrycount += 1
                 if histrycount == 1:
-                    getbook = input("Enter the name of the book you wish to take out ")
+                    getbook = input("Enter the name of the book you wish to take out(case sensitive): ")
                     fetchvalue(getbook)
                     makenumber(stockofbooks)
                     if finalreuslt  <= 0:
@@ -156,7 +151,7 @@ def DCR(userchoice,):
             print('Book account:')
             print(UserBooks)
             linebreak()
-            ReturnBook = input('Name of book returning: ')
+            ReturnBook = input('Name of book returning: ') # add in error handling so that if u put in non sense it doesnt break
             fetchvalue(ReturnBook)
             makenumber(stockofbooks)
             newvalue = finalreuslt + 1 
@@ -182,7 +177,6 @@ def DCR(userchoice,):
             print(UserBooks)
     elif userchoice == 'search':
         MenuHistory.append("search")
-        print('The search system is case sensitive')
         ask = input('Search by Name or Genre? ')
         ask2 = ask.lower()
         linebreak()
@@ -191,13 +185,6 @@ def DCR(userchoice,):
         else:
             print('Error')
         
-
-
-            
-
-       
-   
-
 
 print('Welcome to the Constantine Library.')
 print('What would you like to do? View the database, checkout a book out or return a book? ')
