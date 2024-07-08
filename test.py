@@ -48,17 +48,18 @@ def search(UserSearchTerm):
     count2 = 0
     results = []
     
-    if UserSearchTerm == 'name': # add in a key word search | we have acces to each name now
+    if UserSearchTerm == 'name': # whatever you input it will look through all titles and return anything that has a match to your search term
         for name in namesofbook:
             new = str(name)
             strip(new)
             search1 = temphold.lower()
             search2 = termof.lower()
-            if search2 in search: # might have to use the .find() method to search, 
+            jwdg = search1.find(search2)
+            if jwdg != -1: 
                 results.append(temphold)
         print("results matching your search: " , results )
 
-    elif UserSearchTerm == 'genre': 
+    elif UserSearchTerm == 'genre': # not working fix this
         for x in genreofbook:
             poop = genreofbook[count2]
             pooptwo = str(poop) #repersents what genre we are on 
@@ -69,7 +70,7 @@ def search(UserSearchTerm):
                 count2 += 1
     elif UserSearchTerm != 'genre' or UserSearchTerm != 'name':
         print('Not Valid')
-    """ print('Results: ' , results) """ # i dont know where this goes for now
+    print('Results: ' , results)  # i dont know where this goes for now
     
 
     
