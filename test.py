@@ -139,13 +139,21 @@ def DCR(userchoice,):
                         N = temphold.lower() 
                         checklist.append(N)
                     check = getbook.lower()
-                    print(check)
-                    print(checklist)
                     if check in checklist:
-                        print('tis is iur test') # all right now it finallly works ( the test). We can work it from here.
-                    print('work?)')
-                else:
-                        print('the book aint real?') 
+                        # if you put in name of book no caps as first responce it breaks the whole thing
+                        fetchvalue(getbook)
+                        makenumber(stockofbooks)
+                        if finalreuslt  <= 0:
+                            print('Out of stock')
+                        elif finalreuslt > 0:
+                            updatestockcurrent = finalreuslt - 1 
+                            updatestock(updatestockcurrent,getbook)
+                            UserBooks.append(getbook) 
+                            linebreak()
+                            print('Book has succefully been checked out to your account')
+                            linebreak()
+                    else:
+                        print('No book was found. Please try again') 
                         getbook = input("Enter the name of the book you wish to take out(case sensitive): ")
 
         if histrycount == 0:
