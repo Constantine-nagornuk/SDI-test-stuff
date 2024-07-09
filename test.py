@@ -4,20 +4,20 @@ con = sqlite3.connect("Library.db")
 cur = con.cursor()
 
 cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count,Genre,Authors)") # add authors into the library system so user can also saearch by author. 
-
+#
 cur.execute("""
     INSERT INTO Library VALUES
-        ('Year of the Maid', '17',1,'horror','rose' ),
+        ('Year of the Maid', '20',1,'horror','rose' ),
         ('Death of the Stuffed Corgi', '14' ,4,'romance','rose'),
         ('Ice and the Tomb', '11',3,'horror','rose' ),
         ('Queen of Nirvana', '19',0,'action','rose' ),
-        ('The Haunted Mask', '4',8,'action','rose' ),
-        ('Avian Shadow', '19',0,'romance','rose' ),
-        ('The Attack of Jupiter', '16',10,'action','rose' ),
-        ('Thorns and the Princess', '11',5,'romance','rose' ),
-        ('Tears of Fire', '9',6,'horror','rose' ),
+        ('The Haunted Mask', '4',2,'romance','rose' ),
+        ('Avian Shadow', '19',0,'action','rose' ),
+        ('The Attack of Jupiter', '4',2,'action','rose' ),
+        ('Thorns and the Princess', '4',2,'action','rose' ),
+        ('Tears of Fire', '4',2,'action','rose' ),
         ('Strike the Shadow', '4',2,'action','rose' ),
-        ('Wicked Dance', '7',3,'romance','rose' )    
+        ('Wicked Dance', '4',2,'action','rose' )    
 """) 
 #global VAR
 finalreuslt = 0
@@ -26,15 +26,17 @@ UserBooks = []
 searching = []
 MenuHistory = []
 temphold = None
+checklist = []
 #global VAR
 
 def strip(x):
     for nonnumber in x:
-        if nonnumber == '(' or nonnumber == ')' or nonnumber == ',':
+        if nonnumber == '(' or nonnumber == ')' or nonnumber == ',' or nonnumber == "'":
             P = x.replace(nonnumber,"")
             x = P
     global temphold
     temphold = x
+
     #temphold is the where the word goes after stripped 
 
 def search(UserSearchTerm):
@@ -88,14 +90,16 @@ def display_table(): # add in authors here so you cans see it in the database di
     opi = cur.fetchall()
     cur.execute("SELECT Genre FROM Library")
     top = cur.fetchall()
+    cur.execute("SELECT Authors FROM Library")
+    auth = cur.fetchall()
     count=0
     for x in poi:
-        print('Name:',poi[count],'|','Stock:',iop[count],'|','Genre:',top[count],'|','BorrowTime:',opi[count],'days','|')
+        print('Name:',poi[count],'|','Author:', auth[count],'|','Stock:',iop[count],'|','Genre:',top[count],'|','BorrowTime:',opi[count],'days','|',)
         count +=1
 
 def makenumber(x):
     for nonnumber in x:
-        if nonnumber == '[' or nonnumber == ']' or nonnumber == '(' or nonnumber == ')' or nonnumber == ',':
+        if nonnumber == '[' or nonnumber == ']' or nonnumber == '(' or nonnumber == ')' or nonnumber == ',' :
             P = x.replace(nonnumber,"")
             x = P
     global finalreuslt
@@ -117,30 +121,41 @@ def DCR(userchoice,):
         MenuHistory.append("database")
         display_table()
         linebreak()
-    elif userchoice == 'printouthistory':
-        print(MenuHistory)
-    elif userchoice == 'checkout':  #  just make the user type it in right and it works
+    
+    
+    
+    elif userchoice == 'checkout':  #  Please add in error handling so if it doesnt find it it doesnt work or else the whole thing snaps
         histrycount = 0 
         for x in MenuHistory:
             if x == "database":
                 histrycount += 1
                 if histrycount == 1:
                     getbook = input("Enter the name of the book you wish to take out(case sensitive): ")
-                    fetchvalue(getbook)
-                    makenumber(stockofbooks)
-                    if finalreuslt  <= 0:
-                        print('Out of stock')
-                    elif finalreuslt > 0:
-                        updatestockcurrent = finalreuslt - 1 
-                        updatestock(updatestockcurrent,getbook)
-                        UserBooks.append(getbook) 
-                        linebreak()
-                        print('Book has succefully been checked out to your account')
-                        linebreak()
-                    break
+                    cur.execute("SELECT name FROM Library")
+                    poi = cur.fetchall()
+                    for x in poi:
+                        yt = str(x)
+                        strip(yt)
+                        N = temphold.lower() 
+                        checklist.append(N)
+                    check = getbook.lower()
+                    print(check)
+                    print(checklist)
+                    if check in checklist:
+                        print('tis is iur test') # all right now it finallly works ( the test). We can work it from here.
+                    print('work?)')
+                else:
+                        print('the book aint real?') 
+                        getbook = input("Enter the name of the book you wish to take out(case sensitive): ")
+
         if histrycount == 0:
             print("Please view the database before you checkout a book")
             linebreak()
+
+
+
+
+
     elif userchoice == 'return':  
         MenuHistory.append("return")
         userbookscount = 0 
@@ -187,6 +202,7 @@ def DCR(userchoice,):
         
 
 print('Welcome to the Constantine Library.')
+
 print('What would you like to do? View the database, checkout a book out or return a book? ')
 user_choiceone = input('| database | checkout | return | ViewBooks | Search | Choose a option: ')
 user_choicetwo = user_choiceone.lower()
