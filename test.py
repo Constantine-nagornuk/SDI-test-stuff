@@ -2,9 +2,7 @@
 import sqlite3
 con = sqlite3.connect("Library.db")
 cur = con.cursor()
-
 cur.execute("CREATE TABLE IF NOT EXISTS Library(Name,ReturnDays,Count,Genre,Authors)") # add authors into the library system so user can also saearch by author. 
-#
 cur.execute("""
     INSERT INTO Library VALUES
         ('Year of the Maid', '20',1,'horror','rose' ),
@@ -74,7 +72,6 @@ def search(UserSearchTerm):
     elif UserSearchTerm != 'genre' or UserSearchTerm != 'name':
         print('Not Valid')
 
-
 def fetchvalue(nameofbook,):
     res = cur.execute("""SELECT Count FROM Library WHERE Name=? """,(nameofbook,)) #allows me to fetch value based on a search term 
     this = res.fetchall()
@@ -107,8 +104,6 @@ def makenumber(x):
     finalreuslt = y
     #finalreuslt is the where the actual number goes not into the value we plugged in 
 
-
-
 def updatestock(currentcount,nameofbook):
     cur.execute("""update Library set Count=? where Name=?""", (currentcount, nameofbook)) # can now update the table base by changing values
 
@@ -121,16 +116,19 @@ def DCR(userchoice,):
         MenuHistory.append("database")
         display_table()
         linebreak()
-    
-    
-    
+    elif userchoice == 'trol':
+        countpoop =  1
+        while countpoop > 0:
+            print(countpoop)
+
     elif userchoice == 'checkout':  #  Please add in error handling so if it doesnt find it it doesnt work or else the whole thing snaps
         histrycount = 0 
         for x in MenuHistory:
             if x == "database":
                 histrycount += 1
                 if histrycount == 1:
-                    getbook = input("Enter the name of the book you wish to take out(case sensitive): ")
+                    print("If your input is not captilized the system wont find it in the database.")
+                    getbook = input("Enter the name of the book you wish to take out: ")
                     cur.execute("SELECT name FROM Library")
                     poi = cur.fetchall()
                     for x in poi:
@@ -140,30 +138,25 @@ def DCR(userchoice,):
                         checklist.append(N)
                     check = getbook.lower()
                     if check in checklist:
-                        # if you put in name of book no caps as first responce it breaks the whole thing
-                        fetchvalue(getbook)
-                        makenumber(stockofbooks)
-                        if finalreuslt  <= 0:
-                            print('Out of stock')
-                        elif finalreuslt > 0:
-                            updatestockcurrent = finalreuslt - 1 
-                            updatestock(updatestockcurrent,getbook)
-                            UserBooks.append(getbook) 
-                            linebreak()
-                            print('Book has succefully been checked out to your account')
-                            linebreak()
-                    else:
-                        print('No book was found. Please try again') 
-                        getbook = input("Enter the name of the book you wish to take out(case sensitive): ")
-
+                        while check in checklist:
+                            fetchvalue(getbook)
+                            makenumber(stockofbooks) 
+                            if finalreuslt  <= 0:
+                                print('Out of stock') # goes on infinitly 
+                            elif finalreuslt > 0:
+                                updatestockcurrent = finalreuslt - 1 
+                                updatestock(updatestockcurrent,getbook)
+                                UserBooks.append(getbook) 
+                                linebreak()
+                                print('Book has succefully been checked out to your account')
+                                linebreak()
+                                break
+                    elif check not in checklist:
+                        print("NOT FOUND")
+                        linebreak()
         if histrycount == 0:
             print("Please view the database before you checkout a book")
             linebreak()
-
-
-
-
-
     elif userchoice == 'return':  
         MenuHistory.append("return")
         userbookscount = 0 
