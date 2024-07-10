@@ -116,10 +116,7 @@ def DCR(userchoice,):
         MenuHistory.append("database")
         display_table()
         linebreak()
-    elif userchoice == 'trol':
-        countpoop =  1
-        while countpoop > 0:
-            print(countpoop)
+    
 
     elif userchoice == 'checkout':  #  Please add in error handling so if it doesnt find it it doesnt work or else the whole thing snaps
         histrycount = 0 
@@ -155,6 +152,7 @@ def DCR(userchoice,):
                         print("NOT FOUND")
                         linebreak()
         if histrycount == 0:
+            linebreak()
             print("Please view the database before you checkout a book")
             linebreak()
     elif userchoice == 'return':  
@@ -184,8 +182,9 @@ def DCR(userchoice,):
         else:
             print('No books to return')
             linebreak()
+
     elif userchoice == 'viewbooks':
-        MenuHistory.append("viewbooks")
+        MenuHistory.append("viewbooks") 
         if not UserBooks:
             print("Account empty")
         else:
@@ -203,11 +202,9 @@ def DCR(userchoice,):
         
 
 print('Welcome to the Constantine Library.')
-
 print('What would you like to do? View the database, checkout a book out or return a book? ')
 user_choiceone = input('| database | checkout | return | ViewBooks | Search | Choose a option: ')
 user_choicetwo = user_choiceone.lower()
-
 DCR(user_choicetwo)
 print('Would you like to return to the main menu')
 userresponce = input('Answer here: ')
